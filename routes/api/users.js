@@ -2,6 +2,8 @@ const express = require('express'); // importing express function
 const router = express.Router(); // importing express router
 const gravatar = require('gravatar'); // importing gravatar
 const bcrypt = require('bcryptjs'); // import bcryptjs
+const jwt = require('jsonwebtoken'); // importing JWT
+const config = require('config'); // importing config JSON file
 
 // importing express validator for checking request parameters
 // before sending data to user model/database to create user
@@ -72,7 +74,23 @@ router.post(
             await user.save(); // save user to Database
 
             // Return jsonwebtoken (log in user as soon as registered)
-            res.send('User registered');
+            // get payload which includes user id
+            const payload = {
+                user: {
+                    id: user.id, // getting the id from MongoDB
+                },
+            };
+
+            // sign token
+            jwt.sign(
+                payload, // pass in payload
+                config.get('jwtSecret'), // pass in secret
+                { expiresIn: 360000 }, // token expires in TODO: change to 3600 in prod
+                (err, token) => {
+                    if (err) throw err; // throw err if err
+                    res.json({ token }); // else send token back to client
+                }
+            );
         } catch (error) {
             console.error(error.message);
             res.status(500).send('Server error'); // response with error
