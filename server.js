@@ -1,6 +1,10 @@
 const express = require('express'); // importing express function
+const connectDB = require('./config/db'); // importing function to connect to DB
 
 const app = express(); // app has express method
+
+// Connect Database
+connectDB();
 
 app.get('/', (req, res) => res.send('API Running')); // creating '/' endpoint
 
