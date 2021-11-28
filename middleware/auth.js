@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const require = require('config');
+const config = require('config');
 
 // middleware function for authentication
 module.exports = function (req, res, next) {
