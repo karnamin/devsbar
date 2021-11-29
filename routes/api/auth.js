@@ -22,9 +22,9 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-// @route   request type: POST, endpoint: api/auth
-// @desc    Authenticate user and get token
-// @access  Public
+// @route       request type: POST, endpoint: api/auth
+// @desc        Authenticate user and get token for login
+// @access      Public
 router.post(
     '/',
     // Express validator
