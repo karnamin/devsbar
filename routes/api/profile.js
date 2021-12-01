@@ -128,9 +128,34 @@ router.get('/', async (req, res) => {
             'name',
             'avatar',
         ]);
-        res.json(profiles);
+        res.json(profiles); // return all profiles
     } catch (error) {
         console.error(error.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route       request type: GET, endpoint - api/profile/user/:user_id
+// @desc        Get profile by user ID
+// @access      Public
+router.get('/user/:user_id', async (req, res) => {
+    try {
+        // get profiles and polulate with name and avatar
+        const profile = await Profile.findOne({
+            user: req.params.user_id,
+        }).populate('user', ['name', 'avatar']);
+
+        // if profile doesn't exist
+        if (!profile) return res.status(400).json({ msg: 'Profile not found' });
+        res.json(profile); // return profile
+    } catch (error) {
+        console.error(error.message);
+
+        // check if error is profile not found or user error
+        // need to do this as url takes in an ObjectId
+        if (error.kind == 'ObjectId') {
+            return res.status(400).json({ msg: 'Profile not found' });
+        }
         res.status(500).send('Server Error');
     }
 });
