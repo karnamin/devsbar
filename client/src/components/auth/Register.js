@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ const Register = () => {
         if (password !== password2) {
             dispatch(setAlert('Passwords do not match', 'danger'));
         } else {
-            console.log('SUCCESS');
+            dispatch(register({ name, email, password }));
             /* const newUser = {
                 name,
                 email,
@@ -63,7 +64,7 @@ const Register = () => {
                         name='name'
                         value={name}
                         onChange={(e) => onChange(e)}
-                        required
+                        //required
                     />
                 </div>
                 <div className='form-group'>
@@ -73,7 +74,7 @@ const Register = () => {
                         name='email'
                         value={email}
                         onChange={(e) => onChange(e)}
-                        required
+                        //required
                     />
                     <small className='form-text'>
                         This site uses Gravatar so if you want a profile image,
@@ -87,7 +88,7 @@ const Register = () => {
                         name='password'
                         value={password}
                         onChange={(e) => onChange(e)}
-                        minLength='6'
+                        //minLength='6'
                     />
                 </div>
                 <div className='form-group'>
@@ -97,7 +98,7 @@ const Register = () => {
                         name='password2'
                         value={password2}
                         onChange={(e) => onChange(e)}
-                        minLength='6'
+                        //minLength='6'
                     />
                 </div>
                 <input
